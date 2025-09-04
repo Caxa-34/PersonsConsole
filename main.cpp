@@ -16,7 +16,7 @@ int main(int argc, char *argv[])
 
     QVector<QPair<QString, int>> persons;
 
-    //открытые файла и запись в массив persons
+    //открытые файла в папке с исходниками и запись в массив persons
     QFile inputFile("input.txt");
     if (inputFile.open(QIODevice::ReadOnly)) {
 
