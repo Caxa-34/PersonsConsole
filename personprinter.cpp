@@ -5,15 +5,18 @@ PersonPrinter::PersonPrinter(QVector<QPair<QString, int>> persons, QObject *pare
     this->persons = persons;
 
     //сортировка по возрастанию с помощью лямда функции
-    std::sort(this->persons.begin(), this->persons.end(),
+    qSort(this->persons.begin(), this->persons.end(),
     [] (const QPair<QString,int> &a, const QPair<QString,int> &b) {
         return a.second < b.second;
     });
 }
 
 void PersonPrinter::print() {
-    //сортировка по убыванию (т.к. были по возрастанию)
-    std::reverse(persons.begin(), persons.end());
+    //сортировка по убыванию
+    qSort(this->persons.begin(), this->persons.end(),
+    [] (const QPair<QString,int> &a, const QPair<QString,int> &b) {
+        return a.second > b.second;
+    });
 
     //вывод в консоль
     for (const QPair<QString, int> &p : persons) {

@@ -18,15 +18,26 @@ int main(int argc, char *argv[])
 
     //открытые файла в папке с исходниками и запись в массив persons
     QFile inputFile("input.txt");
+    // Проверка существования файла
+    if (!inputFile.exists()) {
+        qDebug() << "! файл не существует";
+        return a.exec();
+    }
+
     if (inputFile.open(QIODevice::ReadOnly)) {
 
         QTextStream reading(&inputFile);
         while (!reading.atEnd()) { //пока файл не закончится
             QString line = reading.readLine(); //считывать построчно
+            if (line.isNull() || line.trimmed().isEmpty()) continue; //пропуск пустой строки
 
             //получение из строки имени и возраста
             QStringList personData = line.split(' ');
-            persons.append(QPair<QString, int>(personData[0].trimmed(), personData[1].toInt()));
+            QString name = personData.value(0, "").trimmed();
+            if (name == "") continue; //проверка что имя обработалось
+            int age = personData.value(1, "-1").toInt();
+            if (age == -1) continue; //проверка что возраст обработался
+            persons.append(QPair<QString, int>(name, age));
         }
     }
     else qDebug() << "! файл не открывается";
